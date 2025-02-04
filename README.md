@@ -114,11 +114,11 @@ See `figures.ipynb` for the code used to generate the figures in the paper. This
 
 ## Running Predictions
 
-See `input_preparation.ipynb` for instructions on how to prepare the input for the four benchmarked methods. This requires `inputs.json`. See the `example_inputs` folder for an example of an input file for each method.
+See `input_preparation.ipynb` for instructions on how to prepare the input for the four benchmarked methods. This requires `inputs.json`. See the `examples/inputs` folder for an example of an input file for each method. To run predictions with each method please follow their instructions.
 
 ## Extracting Accuracy Scores
 
-See `extract_scores.ipynb` for instructions on how to run accuracy scoring and extract relevant scores. This requires `ground_truth.tar.gz` and `inputs.json`.
+See the `examples/utils`, `examples/analysis` and `extract_scores.ipynb` for instructions on how to run accuracy scoring and extract relevant scores for each method. This requires `ground_truth.tar.gz`, `inputs.json` and `annotations.csv`.
 
 ## Similarity scoring
 
