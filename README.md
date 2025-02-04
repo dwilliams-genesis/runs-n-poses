@@ -104,6 +104,10 @@ ground_truth/
 
 Contains the MSA files for each system.
 
+### `train_similarity_scores.parquet`
+
+Contains all calculated similarity scores for Runs N' Poses dataset systems against the entire PDB. This was used to get the closest training systems based on SuCOS-pocket similarity (`sucos_shape_pocket_qcov`).
+
 ## Reproducing Figures
 
 See `figures.ipynb` for the code used to generate the figures in the paper. This requires `predictions.tar.gz` and `annotations.csv`.
@@ -119,3 +123,4 @@ See `extract_scores.ipynb` for instructions on how to run accuracy scoring and e
 ## Similarity scoring
 
 See `similarity_scoring.py` for how we calculated the similarity scores. This is difficult to reproduce from scratch as it requires an entire copy of the PDB and large amounts of memory. The same functionality will shortly be added to [PLINDER](https://github.com/plinder-org/plinder).
+The processed output of this script can be found in `train_similarity_scores.parquet`.
