@@ -7,7 +7,7 @@
           "count": 1,
           "sequence": "APVRSLNCTLRDSQQKSLVMSGPYELKALHLQGQDMEQQVVFSMSFVQGEESNDKIPVALGLKEKNLYLSCVLKDDKPTLQLESVDPKNYPKKKMEKRFVFNKIEINNKLEFESAQFPNWYISTSQAENMPVFLGGTKGGQDITDFTMQFVSS",
           "msa": {
-            "precomputed_msa_dir": "examples/inputs/msa_files/8c3u__1__1.a__1.c/A",
+            "precomputed_msa_dir": "../inputs/msa_files/8c3u__1__1.a__1.c/A",
             "pairing_db": "uniprot"
           }
         }

@@ -114,7 +114,7 @@ See `figures.ipynb` for the code used to generate the figures in the paper. This
 
 ## Running Predictions
 
-See `input_preparation.ipynb` for instructions on how to prepare the input for the four benchmarked methods. This requires `inputs.json`. See the `examples/inputs` folder for an example of an input file for each method. To run predictions with each method please follow their instructions.
+See `input_preparation.ipynb` for instructions on how to prepare the input for the four benchmarked methods. This requires `inputs.json`. See the `examples/inputs` folder for an example of an input file for each method. See `examples/utils` for example commands to run predictions with each benchmarked method. To execute those command please follow instructions on their github pages.
 
 ## Extracting Accuracy Scores
 
