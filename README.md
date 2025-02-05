@@ -122,5 +122,5 @@ See the `examples/utils`, `examples/analysis` and `extract_scores.ipynb` for ins
 
 ## Similarity scoring
 
-See `similarity_scoring.py` for how we calculated the similarity scores. This is difficult to reproduce from scratch as it requires an entire copy of the PDB and large amounts of memory. The same functionality will shortly be added to [PLINDER](https://github.com/plinder-org/plinder).
+See `similarity_scoring.py` for how we calculated the similarity scores. This requires an entire copy of the PDB, the PLINDER dataset, and large amounts of memory. The same functionality will shortly be added to [PLINDER](https://github.com/plinder-org/plinder).
 The processed output of this script can be found in `train_similarity_scores.parquet`.
