@@ -7,6 +7,8 @@ This repository accompanies the pre-print: ["Have protein-ligand co-folding pred
 This benchmark tests the ability of protein-ligand co-folding methods to generalize to systems different from those in their training set.
 This is a zero-shot benchmark, provided that your method uses a structural training cutoff of 30 September 2021.
 
+Find ML-ready versions of the [dataset](https://polarishub.io/datasets/plinder-org/runs-n-poses-dataset) and [benchmark](https://polarishub.io/benchmarks/plinder-org/runs-n-poses) at [Polaris](https://polarishub.io/).
+
 ## Data Descriptions
 
 The data is available in [Zenodo](https://zenodo.org/records/14794786) and consists of the following files:
@@ -40,7 +42,7 @@ Additional properties:
 - `ligand_num_rings`: The number of rings in the system ligand
 - `ligand_num_pocket_residues`: The number of residues in the pocket of the system ligand
 
-And additionally, all [PLINDER similarity metrics](https://plinder-org.github.io/plinder/dataset.html#clusters-clusters) are calculated for the closest training system, and the following additional metrics are calculated:
+And additionally, all [PLINDER similarity metrics](https://plinder-org.github.io/plinder/dataset.html#clusters-clusters) are calculated for the closest training system, and the following additional similarity metrics are calculated:
 
 - `color` and `shape`, returned by [RDKit's rdShapeAlign.AlignMol](https://www.rdkit.org/docs/source/rdkit.Chem.rdShapeAlign.html#rdkit.Chem.rdShapeAlign.AlignMol) function for the ground truth system ligand pose and the closest training system ligand pose
 - `sucos_shape` returned by [SuCOS](https://github.com/susanhleung/SuCOS) calculation on the aligned ligand poses
@@ -49,7 +51,7 @@ And additionally, all [PLINDER similarity metrics](https://plinder-org.github.io
 - `shape_pocket_qcov`: Multiplication of the `shape` score and the pocket coverage between the ground truth system ligand pose and the closest training system ligand pose
 - `color_pocket_qcov`: Multiplication of the `color` score and the pocket coverage between the ground truth system ligand pose and the closest training system ligand pose
 
-Metrics all range from 0 to 100.
+Similarity metrics all range from 0 to 100.
 
 ### `predictions.tar.gz`
 
@@ -61,10 +63,10 @@ Contains CSV files for each prediction method with the following columns:
 - `seed`: The seed used for the prediction
 - `sample`: The sample number
 - `ranking_score`: The ranking score of the prediction
-- `prot_lig_chain_iptm_average`, `prot_lig_chain_iptm_min`, `prot_lig_chain_iptm_max`: The average, minimum, and maximum chain-pair iPTM scores calculated for the protein vs ligand chains, suffixed by `_rmsd` and `_lddt_pli` depending on which metric was used to perform the chain mapping.
-- `lig_prot_chain_iptm_average`, `lig_prot_chain_iptm_min`, `lig_prot_chain_iptm_max`: The average, minimum, and maximum chain-pair iPTM scores calculated for the ligand vs protein chains, suffixed by `_rmsd` and `_lddt_pli` depending on which metric was used to perform the chain mapping.
+- `prot_lig_chain_iptm_average`, `prot_lig_chain_iptm_min`, `prot_lig_chain_iptm_max`: The average, minimum, and maximum chain-pair iPTM scores calculated for the protein vs ligand chains, suffixed by `_rmsd` and `_lddt_pli` depending on which accuracy metric was used to perform the chain mapping.
+- `lig_prot_chain_iptm_average`, `lig_prot_chain_iptm_min`, `lig_prot_chain_iptm_max`: The average, minimum, and maximum chain-pair iPTM scores calculated for the ligand vs protein chains, suffixed by `_rmsd` and `_lddt_pli` depending on which accuracy metric was used to perform the chain mapping.
 - `model_ligand_chain`, `model_ligand_ccd_code`, `model_ligand_smiles`: The chain ID, CCD code, and SMILES string of the model ligand
-- `lddt_pli`, `rmsd`, `lddt_lp`, `bb_rmsd`: The LDDT-PLI, BiSyRMSD, LDDT-LP, and backbone RMSD scores
+- `lddt_pli`, `rmsd`, `lddt_lp`, `bb_rmsd`: The LDDT-PLI, BiSyRMSD, LDDT-LP, and backbone RMSD accuracy metrics
 
 ### `inputs.json`
 
@@ -106,7 +108,7 @@ Contains the MSA files for each system.
 
 ### `train_similarity_scores.parquet`
 
-Contains all calculated similarity scores for Runs N' Poses dataset systems against the entire PDB. This was used to get the closest training systems based on SuCOS-pocket similarity (`sucos_shape_pocket_qcov`).
+Contains all calculated similarity metrics for Runs N' Poses dataset systems against the entire PDB. This was used to get the closest training systems based on SuCOS-pocket similarity (`sucos_shape_pocket_qcov`).
 
 ## Reproducing Figures
 
@@ -116,11 +118,11 @@ See `figures.ipynb` for the code used to generate the figures in the paper. This
 
 See `input_preparation.ipynb` for instructions on how to prepare the input for the four benchmarked methods. This requires `inputs.json`. See the `examples/inputs` folder for an example of an input file for each method. See `examples/utils` for example commands to run predictions with each benchmarked method. To execute those command please follow instructions on their github pages.
 
-## Extracting Accuracy Scores
+## Extracting Accuracy Metrics
 
-See the `examples/utils`, `examples/analysis` and `extract_scores.ipynb` for instructions on how to run accuracy scoring and extract relevant scores for each method. This requires `ground_truth.tar.gz`, `inputs.json` and `annotations.csv`.
+See the `examples/utils`, `examples/analysis` and `extract_scores.ipynb` for instructions on how to run accuracy scoring and extract relevant accuracy metrics for each method. This requires `ground_truth.tar.gz`, `inputs.json` and `annotations.csv`.
 
 ## Similarity scoring
 
-See `similarity_scoring.py` for how we calculated the similarity scores. This requires an entire copy of the PDB, the PLINDER dataset, and large amounts of memory. The same functionality will shortly be added to [PLINDER](https://github.com/plinder-org/plinder).
+See `similarity_scoring.py` for how we calculated the similarity metrics. This requires an entire copy of the PDB, the PLINDER dataset, and large amounts of memory. The same functionality will shortly be added to [PLINDER](https://github.com/plinder-org/plinder).
 The processed output of this script can be found in `train_similarity_scores.parquet`.
