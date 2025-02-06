@@ -1,5 +1,7 @@
 # 🌹 Runs N' Poses 🌹
 
+![Runs N' Poses](runs_n_poses_logo.png)
+
 ## A protein-ligand co-folding prediction dataset and benchmark
 
 This repository accompanies the pre-print: ["Have protein-ligand co-folding prediction methods moved beyond memorisation?"]()
