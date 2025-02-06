@@ -1,4 +1,5 @@
-![Runs N' Poses](runs_n_poses_logo.png)
+<p align="center"><img src="runs_n_poses_logo.png" alt="Runs N' Poses" width=50% height=50%/></p>
+
 
 ## 🌹 Runs N' Poses 🌹 - protein-ligand co-folding prediction dataset and benchmark
 
