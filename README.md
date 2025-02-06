@@ -104,7 +104,7 @@ ground_truth/
 
 ### `msa_files.tar.gz`
 
-Contains the MSA files for each system.
+Contains the MSA files for each system in the same fashion as seen in `examples/inputs/msa_files`.
 
 ### `train_similarity_scores.parquet`
 
