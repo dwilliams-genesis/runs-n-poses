@@ -12,7 +12,7 @@ Find ML-ready versions of the [dataset](https://polarishub.io/datasets/plinder-o
 
 ## Data Descriptions
 
-The data is available in [Zenodo](https://zenodo.org/records/14794786) and consists of the following files:
+The data is available in [Zenodo](https://doi.org/10.5281/zenodo.14794785) and consists of the following files:
 
 ### `annotations.csv`
 
