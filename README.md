@@ -3,7 +3,7 @@
 
 ## 🌹 Runs N' Poses 🌹 - protein-ligand co-folding prediction dataset and benchmark
 
-This repository accompanies the pre-print: ["Have protein-ligand co-folding prediction methods moved beyond memorisation?"]()
+This repository accompanies the pre-print: ["Have protein-ligand co-folding prediction methods moved beyond memorisation?"](https://doi.org/10.1101/2025.02.03.636309)
 
 This benchmark tests the ability of protein-ligand co-folding methods to generalize to systems different from those in their training set.
 This is a zero-shot benchmark, provided that your method uses a structural training cutoff of 30 September 2021.
