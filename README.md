@@ -47,10 +47,8 @@ And additionally, all [PLINDER similarity metrics](https://plinder-org.github.io
 
 - `color` and `shape`, returned by [RDKit's rdShapeAlign.AlignMol](https://www.rdkit.org/docs/source/rdkit.Chem.rdShapeAlign.html#rdkit.Chem.rdShapeAlign.AlignMol) function for the ground truth system ligand pose and the closest training system ligand pose
 - `sucos_shape` returned by [SuCOS](https://github.com/susanhleung/SuCOS) calculation on the aligned ligand poses
-- `tanimoto` returned by [RDKit's TanimotoSimilarity](https://www.rdkit.org/docs/source/rdkit.DataStructs.cDataStructs.html#rdkit.DataStructs.cDataStructs.TanimotoSimilarity) function for the ground truth system ligand and the closest training system ligand molecules.
+- `morgan_tanimoto`, `topological_tanimoto` returned by [RDKit's TanimotoSimilarity](https://www.rdkit.org/docs/source/rdkit.DataStructs.cDataStructs.html#rdkit.DataStructs.cDataStructs.TanimotoSimilarity) function for the ground truth system ligand and the closest training system ligand molecules using the fingerprints from `rdkit.Chem.rdFingerprintGenerator.GetMorganGenerator(radius=2, fpSize=2048)` and ` rdkit.AllChem.GetRDKitFPGenerator()` respectively
 - `sucos_shape_pocket_qcov`: Multiplication of the `sucos` score and the pocket coverage between the ground truth system ligand pose and the closest training system ligand pose
-- `shape_pocket_qcov`: Multiplication of the `shape` score and the pocket coverage between the ground truth system ligand pose and the closest training system ligand pose
-- `color_pocket_qcov`: Multiplication of the `color` score and the pocket coverage between the ground truth system ligand pose and the closest training system ligand pose
 
 Similarity metrics all range from 0 to 100.
 
@@ -67,7 +65,10 @@ Contains CSV files for each prediction method with the following columns:
 - `prot_lig_chain_iptm_average`, `prot_lig_chain_iptm_min`, `prot_lig_chain_iptm_max`: The average, minimum, and maximum chain-pair iPTM scores calculated for the protein vs ligand chains, suffixed by `_rmsd` and `_lddt_pli` depending on which accuracy metric was used to perform the chain mapping.
 - `lig_prot_chain_iptm_average`, `lig_prot_chain_iptm_min`, `lig_prot_chain_iptm_max`: The average, minimum, and maximum chain-pair iPTM scores calculated for the ligand vs protein chains, suffixed by `_rmsd` and `_lddt_pli` depending on which accuracy metric was used to perform the chain mapping.
 - `model_ligand_chain`, `model_ligand_ccd_code`, `model_ligand_smiles`: The chain ID, CCD code, and SMILES string of the model ligand
-- `lddt_pli`, `rmsd`, `lddt_lp`, `bb_rmsd`: The LDDT-PLI, BiSyRMSD, LDDT-LP, and backbone RMSD accuracy metrics
+- `lddt_pli`, `rmsd`, `lddt_lp`, `bb_rmsd`, `pred_pocket_f1`: The LDDT-PLI, BiSyRMSD, LDDT-LP, backbone RMSD, and pocket F1 score accuracy metrics
+
+### `posebusters_results.tar.gz`
+Contains CSV files for each prediction method with results of the [PoseBusters](https://github.com/maabuu/posebusters) suite of physical plausibility checks.
 
 ### `inputs.json`
 
@@ -107,13 +108,30 @@ ground_truth/
 
 Contains the MSA files for each system in the same fashion as seen in `examples/inputs/msa_files`.
 
-### `train_similarity_scores.parquet`
+### `all_similarity_scores.parquet`
 
-Contains all calculated similarity metrics for Runs N' Poses dataset systems against the entire PDB. This was used to get the closest training systems based on SuCOS-pocket similarity (`sucos_shape_pocket_qcov`).
+Contains all calculated similarity metrics for Runs N' Poses dataset systems against the entire PDB up until 5 January 2025. This was used to get the closest training systems up to 30 September 2021 based on SuCOS-pocket similarity (`sucos_shape_pocket_qcov`).
+
+Here is how you can obtain the systems to use and corresponding similarity scores for a different training cutoff, with the example of the 1 June 2023 cutoff used by Boltz-2:
+
+```python
+similarity_df_boltz2 = all_similarity_scores[all_similarity_scores["target_release_date"] < boltz_training_cutoff].sort_values(by="sucos_shape_pocket_qcov", ascending=False).groupby("group_key").head(1).reset_index(drop=True)
+usable_systems = set(annotated_df[annotated_df["release_date"] > boltz_training_cutoff]["system_id"])
+similarity_2023 = dict(zip(similarity_df_boltz2["group_key"], similarity_df_boltz2["sucos_shape_pocket_qcov"]))
+annotated_df["sucos_shape_pocket_qcov_2023"] = annotated_df["group_key"].map(similarity_2023)
+```
+
+And here's how you can calculate the closest training system using a different similarity score than SuCOS-pocket similarity, with the example of using just pocket coverage:
+
+```python
+pocket_qcov_best = all_similarity_scores[all_similarity_scores["target_release_date"] < training_cutoff].sort_values(by="pocket_qcov", ascending=False).groupby("group_key").head(1).reset_index(drop=True)
+pocket_qcov_best = dict(zip(pocket_qcov_best["group_key"], pocket_qcov_best["pocket_qcov"]))
+annotated_df["pocket_qcov_best"] = annotated_df["group_key"].map(pocket_qcov_best)
+```
 
 ## Reproducing Figures
 
-See `figures.ipynb` for the code used to generate the figures in the paper. This requires `predictions.tar.gz` and `annotations.csv`.
+See `figures.ipynb` for the code used to generate the figures in the paper. This requires `plotting.py`, `all_similarity_scores.parquet`, `annotations.csv` and extracted `predictions.tar.gz`, `posebusters_results.tar.gz`.
 
 ## Running Predictions
 
@@ -126,4 +144,4 @@ See the `examples/utils`, `examples/analysis` and `extract_scores.ipynb` for ins
 ## Similarity scoring
 
 See `similarity_scoring.py` for how we calculated the similarity metrics. This requires an entire copy of the PDB, the PLINDER dataset, and large amounts of memory. The same functionality will shortly be added to [PLINDER](https://github.com/plinder-org/plinder).
-The processed output of this script can be found in `train_similarity_scores.parquet`.
+The processed output of this script can be found in `all_similarity_scores.parquet`.
