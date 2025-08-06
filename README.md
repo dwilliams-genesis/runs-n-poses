@@ -141,6 +141,13 @@ See `input_preparation.ipynb` for instructions on how to prepare the input for t
 
 See the `examples/utils`, `examples/analysis` and `extract_scores.ipynb` for instructions on how to run accuracy scoring and extract relevant accuracy metrics for each method. This requires `ground_truth.tar.gz`, `inputs.json` and `annotations.csv`.
 
+**NOTE**: This requires a version of the Chemical Components Dictionary prepared for OpenStructure and exported as an environment variable, as follows (see [#6](https://github.com/plinder-org/runs-n-poses/issues/6)):
+```sh
+wget https://files.wwpdb.org/pub/pdb/data/monomers/components.cif.gz
+chemdict_tool create components.cif.gz compounds.chemlib pdb -i
+export OST_COMPOUNDS_CHEMLIB=compounds.chemlib
+```
+
 ## Similarity scoring
 
 See `similarity_scoring.py` for how we calculated the similarity metrics. This requires an entire copy of the PDB, the PLINDER dataset, and large amounts of memory. The same functionality will shortly be added to [PLINDER](https://github.com/plinder-org/plinder).
