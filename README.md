@@ -10,6 +10,14 @@ This is a zero-shot benchmark, provided that your method uses a structural train
 
 Find ML-ready versions of the [dataset](https://polarishub.io/datasets/plinder-org/runs-n-poses-dataset) and [benchmark](https://polarishub.io/benchmarks/plinder-org/runs-n-poses) at [Polaris](https://polarishub.io/).
 
+## Installation
+
+The environment can be installed using conda:
+
+```sh
+conda env create -f environment.yaml
+``
+
 ## Data Descriptions
 
 The data is available in [Zenodo](https://doi.org/10.5281/zenodo.14794785) and consists of the following files:
