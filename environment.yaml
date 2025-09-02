@@ -5,14 +5,12 @@ name: runs_n_poses
 channels:
   - metalcycling
   - conda-forge
-  - aivant
   - defaults
   - bioconda
 dependencies:
   - python=3.10.*
   - reduce
-  - aivant::openstructure=2.8.0
-  - boost=1.82
+  - bioconda::openstructure>=2.8.0
   - rdkit
   - pandas
   - ipykernel
